@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.common.advise.mapper.HospitalAdviseMapper">
+
+    <resultMap type="HospitalAdvise" id="HospitalAdviseResult">
+
+        <result property="userId"    column="user_id"    />
+        <result property="advise"    column="advise"    />
+        <result property="img"    column="img"    />
+        <result property="phoneEmail"    column="phone_email"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <select id="selectByUserId" parameterType="HospitalAdvise" resultMap="HospitalAdviseResult">
+       select * from hospital_advise
+        <where>
+            <if test="userId != null  and userId != ''"> user_id = #{userId}</if>
+        </where>
+
+    </select>
+
+    <insert id="insertAdvise" parameterType="HospitalAdvise">
+        insert into hospital_advise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="advise != null  and advise != ''">advise,</if>
+            <if test="img != null  and img != ''">img,</if>
+            <if test="phoneEmail != null  and phoneEmail != ''">phone_email,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="advise != null  and advise != ''">#{advise},</if>
+            <if test="img != null  and img != ''">#{img},</if>
+            <if test="phoneEmail != null  and phoneEmail != ''">#{phoneEmail},</if>
+        </trim>
+
+    </insert>
+
+    <update id="updateByUserId" parameterType="HospitalAdvise">
+        update hospital_advise
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="advise != null  and advise != ''">advise = #{advise},</if>
+            <if test="img != null  and img != ''">img = #{img},</if>
+            <if test="phoneEmail != null  and phoneEmail != ''">phone_email = #{phoneEmail},</if>
+        </trim>
+         where user_id=#{userId}
+    </update>
+
+    <select id="selectAdviseinfoList" parameterType="HospitalAdvise" resultMap="HospitalAdviseResult">
+        select * from hospital_advise
+        <where>
+            <if test="userId != null  and userId != ''"> and userId = #{userId}</if>
+            <if test="advise != null  and advise != ''"> and advise = #{advise}</if>
+            <if test="img != null  and img != ''"> and img = #{img}</if>
+            <if test="phoneEmail != null"> and phone_email = #{phoneEmail}</if>
+        </where>
+    </select>
+
+
+    <delete id="deleteAdviseinfoByIds" parameterType="String">
+        delete from hospital_advise where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+
+
+    <sql id="selectHospitalAdviseVo">
+        select user_id, advise, img, phone_email, id from hospital_advise
+    </sql>
+
+    <select id="selectHospitalAdviseList" parameterType="HospitalAdvise" resultMap="HospitalAdviseResult">
+        <include refid="selectHospitalAdviseVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="advise != null  and advise != ''"> and advise = #{advise}</if>
+            <if test="img != null  and img != ''"> and img = #{img}</if>
+            <if test="phoneEmail != null  and phoneEmail != ''"> and phone_email = #{phoneEmail}</if>
+        </where>
+    </select>
+
+    <select id="selectHospitalAdviseById" parameterType="Long" resultMap="HospitalAdviseResult">
+        <include refid="selectHospitalAdviseVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHospitalAdvise" parameterType="HospitalAdvise" useGeneratedKeys="true" keyProperty="id">
+        insert into hospital_advise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="advise != null  and advise != ''">advise,</if>
+            <if test="img != null  and img != ''">img,</if>
+            <if test="phoneEmail != null  and phoneEmail != ''">phone_email,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="advise != null  and advise != ''">#{advise},</if>
+            <if test="img != null  and img != ''">#{img},</if>
+            <if test="phoneEmail != null  and phoneEmail != ''">#{phoneEmail},</if>
+        </trim>
+    </insert>
+
+    <update id="updateHospitalAdvise" parameterType="HospitalAdvise">
+        update hospital_advise
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="advise != null  and advise != ''">advise = #{advise},</if>
+            <if test="img != null  and img != ''">img = #{img},</if>
+            <if test="phoneEmail != null  and phoneEmail != ''">phone_email = #{phoneEmail},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHospitalAdviseById" parameterType="Long">
+        delete from hospital_advise where id = #{id}
+    </delete>
+
+    <delete id="deleteHospitalAdviseByIds" parameterType="String">
+        delete from hospital_advise where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

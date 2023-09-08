@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.register.baseinfo.mapper.BaseinfoMapper">
+    <resultMap type="Baseinfo" id="BaseinfoResult">
+        <result property="id"    column="id"    />
+        <result property="logo"    column="logo"    />
+        <result property="name"    column="name"    />
+        <result property="introduce"    column="introduce"    />
+        <result property="bussinessTime"    column="bussiness_time"    />
+        <result property="phone"    column="phone"    />
+        <result property="address"    column="address"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="hospitalId"    column="hospital_id"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="areaName"    column="area_name"    />
+    </resultMap>
+
+    <sql id="selectBaseinfoVo">
+        select id, logo, name, introduce, bussiness_time, phone, address, longitude, latitude, create_by, create_time, update_by, update_time, remark,hospital_id,area_id,area_name from bar_shopinfo
+    </sql>
+
+    <select id="selectBaseinfoList" parameterType="Baseinfo" resultMap="BaseinfoResult">
+        <include refid="selectBaseinfoVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="hospitalId != null  and hospitalId != ''">and hospital_id = #{hospitalId}</if>
+        </where>
+        order by update_time desc
+    </select>
+
+    <select id="selectBaseinfoById" parameterType="Long" resultMap="BaseinfoResult">
+        <include refid="selectBaseinfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseinfo" parameterType="Baseinfo">
+        insert into bar_shopinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="logo != null  and logo != ''">logo,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="introduce != null  and introduce != ''">introduce,</if>
+            <if test="bussinessTime != null  and bussinessTime != ''">bussiness_time,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="longitude != null  and longitude != ''">longitude,</if>
+            <if test="latitude != null  and latitude != ''">latitude,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="areaName != null  and areaName != ''">area_name ,</if>
+            <if test="areaId != null  and areaId != ''">area_id ,</if>
+            <if test="hospitalId != null  and hospitalId != ''">hospital_id ,</if>
+<!--            <if test="hospitalName != null  and hospitalName != ''">hospital_name,</if>-->
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="logo != null  and logo != ''">#{logo},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="introduce != null  and introduce != ''">#{introduce},</if>
+            <if test="bussinessTime != null  and bussinessTime != ''">#{bussinessTime},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="longitude != null  and longitude != ''">#{longitude},</if>
+            <if test="latitude != null  and latitude != ''">#{latitude},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="areaName != null  and areaName != ''"> #{areaName},</if>
+            <if test="areaId != null  and areaId != ''">#{areaId},</if>
+            <if test="hospitalId != null  and hospitalId != ''">#{hospitalId},</if>
+<!--            <if test="hospitalName != null  and hospitalName != ''"> #{hospitalName},</if>-->
+         </trim>
+    </insert>
+
+    <update id="updateBaseinfo" parameterType="Baseinfo">
+        update bar_shopinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="logo != null  and logo != ''">logo = #{logo},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="introduce != null  and introduce != ''">introduce = #{introduce},</if>
+            <if test="bussinessTime != null  and bussinessTime != ''">bussiness_time = #{bussinessTime},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="longitude != null  and longitude != ''">longitude = #{longitude},</if>
+            <if test="latitude != null  and latitude != ''">latitude = #{latitude},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="areaName != null  and areaName != ''">area_name = #{areaName},</if>
+            <if test="areaId != null">area_id = #{areaId},</if>
+            <if test="hospitalId != null">hospital_id = #{hospitalId},</if>
+<!--            <if test="hospitalName != null  and hospitalName != ''">hospital_name = #{hospitalName},</if>-->
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseinfoById" parameterType="Long">
+        delete from bar_shopinfo where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseinfoByIds" parameterType="String">
+        delete from bar_shopinfo where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.common.about.mapper.HospitalAboutMapper">
+
+    <resultMap type="HospitalAbout" id="HospitalAboutResult">
+        <result property="id"    column="id"    />
+        <result property="about"    column="about"    />
+    </resultMap>
+
+    <sql id="selectHospitalAboutVo">
+        select id, about from hospital_about
+    </sql>
+
+    <select id="selectHospitalAboutList" parameterType="HospitalAbout" resultMap="HospitalAboutResult">
+        <include refid="selectHospitalAboutVo"/>
+        <where>
+            <if test="about != null  and about != ''"> and about = #{about}</if>
+        </where>
+    </select>
+
+    <select id="selectHospitalAboutById" parameterType="Long" resultMap="HospitalAboutResult">
+        <include refid="selectHospitalAboutVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHospitalAbout" parameterType="HospitalAbout" useGeneratedKeys="true" keyProperty="id">
+        insert into hospital_about
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="about != null  and about != ''">about,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="about != null  and about != ''">#{about},</if>
+        </trim>
+    </insert>
+
+    <update id="updateHospitalAbout" parameterType="HospitalAbout">
+        update hospital_about
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="about != null  and about != ''">about = #{about},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHospitalAboutById" parameterType="Long">
+        delete from hospital_about where id = #{id}
+    </delete>
+
+    <delete id="deleteHospitalAboutByIds" parameterType="String">
+        delete from hospital_about where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

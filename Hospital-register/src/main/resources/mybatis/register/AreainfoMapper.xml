@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.register.area.mapper.AreainfoMapper">
+
+    <resultMap type="Areainfo" id="AreainfoResult">
+        <result property="areaId"    column="area_id"    />
+        <result property="areaName"    column="area_name"    />
+    </resultMap>
+
+    <sql id="selectServiceinfoVo">
+        select area_id, area_name from hospital_area
+    </sql>
+
+    <select id="selectAll" resultMap="AreainfoResult">
+        select area_id, area_name from hospital_area
+        <where>
+            <if test="areaId != null"> and area_id = #{areaId}</if>
+            <if test="areaName != null"> and area_name = #{areaName}</if>
+        </where>
+    </select>
+    <select id="selectAllaLL" resultMap="AreainfoResult">
+        select area_id, area_name from hospital_area
+        <where>
+            <if test="areaId != null"> and area_id = #{areaId}</if>
+            <if test="areaName != null"> and area_name = #{areaName}</if>
+        </where>
+
+    </select>
+
+    <sql id="selectHospitalAreaVo">
+        select area_id, area_name from hospital_area
+    </sql>
+
+    <select id="selectHospitalAreaList" parameterType="Areainfo" resultMap="AreainfoResult">
+        <include refid="selectHospitalAreaVo"/>
+        <where>
+            <if test="areaId != null"> and area_id = #{areaId}</if>
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+        </where>
+    </select>
+    <select id="selectHospitalArea" parameterType="Areainfo" resultMap="AreainfoResult">
+        <include refid="selectHospitalAreaVo"/>
+        <where>
+            area_name = #{areaName}
+        </where>
+    </select>
+
+    <select id="selectHospitalAreaById" parameterType="Long" resultMap="AreainfoResult">
+        <include refid="selectHospitalAreaVo"/>
+        where area_id = #{areaId}
+    </select>
+
+    <insert id="insertHospitalArea" parameterType="Areainfo" useGeneratedKeys="true" keyProperty="areaId">
+        insert into hospital_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaName != null  and areaName != ''">area_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaName != null  and areaName != ''">#{areaName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateHospitalArea" parameterType="Areainfo">
+        update hospital_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaName != null  and areaName != ''">area_name = #{areaName},</if>
+        </trim>
+        where area_id = #{areaId}
+    </update>
+
+    <delete id="deleteHospitalAreaById" parameterType="Long">
+        delete from hospital_area where area_id = #{areaId}
+    </delete>
+
+    <delete id="deleteHospitalAreaByIds" parameterType="String">
+        delete from hospital_area where area_id in
+        <foreach item="areaId" collection="array" open="(" separator="," close=")">
+            #{areaId}
+        </foreach>
+    </delete>
+
+
+
+
+</mapper>

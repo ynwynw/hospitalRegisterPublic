@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.register.hospital.mapper.HospitalinfoMapper">
+
+    <resultMap type="Hospitalinfo" id="HospitalinfoResult">
+        <result property="hospitalId" column="hospital_id"/>
+        <result property="hospitalName" column="hospital_name"/>
+    </resultMap>
+
+    <sql id="selectHospitalHospitalVo">
+        select * from hospital_hospital
+    </sql>
+
+    <select id="selectById" resultMap="HospitalinfoResult">
+        select * from hospital_hospital where hospital_id=#{hospitalId}
+    </select>
+
+    <select id="selectByName" resultMap="HospitalinfoResult">
+        select * from hospital_hospital
+        <where>
+            <if test="hospitalName != null  and hospitalName != ''">and hospital_name like concat('%', #{hospitalName},
+                '%')
+            </if>
+            <if test="hospitalId != null  and hospitalId != ''">and hospital_id = #{hospitalId}</if>
+        </where>
+    </select>
+
+    <select id="selectAll" resultMap="HospitalinfoResult">
+        select * from hospital_hospital
+        <where>
+            <if test="hospitalName != null  and hospitalName != ''">and hospital_name like concat('%', #{hospitalName},
+                '%')
+            </if>
+            <if test="hospitalId != null  and hospitalId != ''">and hospital_id = #{hospitalId}</if>
+        </where>
+    </select>
+    <select id="selectHospitalHospital" resultMap="HospitalinfoResult">
+        select * from hospital_hospital
+        <where>
+           hospital_name = #{hospitalName}
+        </where>
+    </select>
+
+
+    <select id="selectHospitalHospitalList" parameterType="Hospitalinfo" resultMap="HospitalinfoResult">
+        <include refid="selectHospitalHospitalVo"/>
+        <where>
+            <if test="hospitalName != null  and hospitalName != ''">and hospital_name like concat('%', #{hospitalName},
+                '%')
+            </if>
+            <if test="hospitalId != null  and hospitalId != ''">and hospital_id = #{hospitalId}</if>
+        </where>
+    </select>
+
+    <select id="selectHospitalHospitalById" parameterType="Long" resultMap="HospitalinfoResult">
+        <include refid="selectHospitalHospitalVo"/>
+        where hospital_id = #{hospitalId}
+    </select>
+
+    <insert id="insertHospitalHospital" parameterType="Hospitalinfo" useGeneratedKeys="true" keyProperty="hospitalId">
+        insert into hospital_hospital
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="hospitalName != null  and hospitalName != ''">hospital_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="hospitalName != null  and hospitalName != ''">#{hospitalName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateHospitalHospital" parameterType="Hospitalinfo">
+        update hospital_hospital
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hospitalName != null  and hospitalName != ''">hospital_name = #{hospitalName},</if>
+        </trim>
+        where hospital_id = #{hospitalId}
+    </update>
+
+    <delete id="deleteHospitalHospitalById" parameterType="Long">
+        delete from hospital_hospital where hospital_id = #{hospitalId}
+    </delete>
+
+    <delete id="deleteHospitalHospitalByIds" parameterType="String">
+        delete from hospital_hospital where hospital_id in
+        <foreach item="hospitalId" collection="array" open="(" separator="," close=")">
+            #{hospitalId}
+        </foreach>
+    </delete>
+
+</mapper>

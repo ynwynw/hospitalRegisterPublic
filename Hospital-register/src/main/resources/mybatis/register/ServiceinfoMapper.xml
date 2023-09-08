@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.register.serviceinfo.mapper.ServiceinfoMapper">
+
+    <resultMap type="Serviceinfo" id="ServiceinfoResult">
+        <result property="id"    column="id"    />
+        <result property="registerId"    column="register_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="logo"    column="logo"    />
+        <result property="name"    column="name"    />
+        <result property="typeInfo"    column="type_info"    />
+        <result property="introduce"    column="introduce"    />
+        <result property="price"    column="price"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="collect"    column="collect"    />
+        <result property="hospitalId"    column="hospital_id"    />
+        <result property="areaId"    column="area_id"    />
+    </resultMap>
+
+    <sql id="selectServiceinfoVo">
+        select id, register_id, user_id, logo, name, type_info, introduce, price, create_by, create_time, update_by, update_time, remark, del_flag,collect,hospital_id,area_id from bar_serviceinfo
+    </sql>
+
+    <select id="selectServiceinfoList" parameterType="Serviceinfo" resultMap="ServiceinfoResult">
+        <include refid="selectServiceinfoVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeInfo != null  and typeInfo != ''"> and type_info = #{typeInfo}</if>
+            <if test="registerId != null  and registerId != ''"> and register_id = #{registerId}</if>
+            <if test="userId != null"> and user_id = #{userId}</if>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="hospitalId != null"> and hospital_id = #{hospitalId}</if>
+            <if test="areaId != null"> and area_id = #{areaId}</if>
+        </where>
+        order by update_time desc
+    </select>
+
+    <select id="selectServiceinfoById" parameterType="Long" resultMap="ServiceinfoResult">
+        <include refid="selectServiceinfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertServiceinfo" parameterType="Serviceinfo" useGeneratedKeys="true" keyProperty="id">
+        insert into bar_serviceinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="registerId != null ">register_id,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="logo != null  and logo != ''">logo,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="typeInfo != null  and typeInfo != ''">type_info,</if>
+            <if test="introduce != null  and introduce != ''">introduce,</if>
+            <if test="price != null  and price != ''">price,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="collect != null  and collect != ''">collect,</if>
+            <if test="hospitalId != null">hospital_id,</if>
+            <if test="areaId != null ">area_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="registerId != null ">#{registerId},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="logo != null  and logo != ''">#{logo},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="typeInfo != null  and typeInfo != ''">#{typeInfo},</if>
+            <if test="introduce != null  and introduce != ''">#{introduce},</if>
+            <if test="price != null  and price != ''">#{price},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="collect != null  and collect != ''">#{collect},</if>
+            <if test="hospitalId != null">#{hospitalId},</if>
+            <if test="areaId != null">#{areaId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateServiceinfo" parameterType="Serviceinfo">
+        update bar_serviceinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="registerId != null">register_id = #{registerId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="logo != null  and logo != ''">logo = #{logo},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="typeInfo != null  and typeInfo != ''">type_info = #{typeInfo},</if>
+            <if test="introduce != null  and introduce != ''">introduce = #{introduce},</if>
+            <if test="price != null  and price != ''">price = #{price},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="collect != null  and collect != ''">collect = #{collect},</if>
+            <if test="hospitalId != null">hospital_id = #{hospitalId},</if>
+            <if test="areaId != null">area_id = #{areaId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="updateCollect" parameterType="Serviceinfo">
+        update bar_serviceinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="collect != null  and collect != ''">collect = #{collect},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteServiceinfoById" parameterType="Long">
+        delete from bar_serviceinfo where id = #{id}
+    </delete>
+
+    <delete id="deleteServiceinfoByIds" parameterType="String">
+        delete from bar_serviceinfo where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

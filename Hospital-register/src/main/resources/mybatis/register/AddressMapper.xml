@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.register.address.mapper.AddressMapper">
+
+    <resultMap type="Address" id="AddressResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="contactName"    column="contact_name"    />
+        <result property="contactPhone"    column="contact_phone"    />
+        <result property="addressCode"    column="address_code"    />
+        <result property="addressDetail"    column="address_detail"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="sex"    column="sex"    />
+    </resultMap>
+
+    <sql id="selectAddressVo">
+        select id, user_id, contact_name, contact_phone, address_code, address_detail, card_no, sex, create_by, create_time, update_by, update_time, remark, del_flag from bar_address
+    </sql>
+
+    <select id="selectAddressList" parameterType="Address" resultMap="AddressResult">
+        <include refid="selectAddressVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="contactName != null  and contactName != ''"> and contact_name like concat('%', #{contactName}, '%')</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+        </where>
+    </select>
+
+    <select id="selectAddressById" parameterType="Long" resultMap="AddressResult">
+        <include refid="selectAddressVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAddress" parameterType="Address">
+        insert into bar_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="contactName != null  and contactName != ''">contact_name,</if>
+            <if test="contactPhone != null  and contactPhone != ''">contact_phone,</if>
+            <if test="addressCode != null  and addressCode != ''">address_code,</if>
+            <if test="addressDetail != null  and addressDetail != ''">address_detail,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="cardNo != null  and cardNo != ''">card_no,</if>
+            <if test="sex != null  and sex != ''">sex,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="contactName != null  and contactName != ''">#{contactName},</if>
+            <if test="contactPhone != null  and contactPhone != ''">#{contactPhone},</if>
+            <if test="addressCode != null  and addressCode != ''">#{addressCode},</if>
+            <if test="addressDetail != null  and addressDetail != ''">#{addressDetail},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="cardNo != null  and cardNo != ''">#{cardNo},</if>
+            <if test="sex != null  and sex != ''">#{sex},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddress" parameterType="Address">
+        update bar_address
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="contactName != null  and contactName != ''">contact_name = #{contactName},</if>
+            <if test="contactPhone != null  and contactPhone != ''">contact_phone = #{contactPhone},</if>
+            <if test="addressCode != null  and addressCode != ''">address_code = #{addressCode},</if>
+            <if test="addressDetail != null  and addressDetail != ''">address_detail = #{addressDetail},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="cardNo != null  and cardNo != ''">card_no = #{cardNo},</if>
+            <if test="sex != null  and sex != ''">sex = #{sex},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAddressById" parameterType="Long">
+        delete from bar_address where id = #{id}
+    </delete>
+
+    <delete id="deleteAddressByIds" parameterType="String">
+        delete from bar_address where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

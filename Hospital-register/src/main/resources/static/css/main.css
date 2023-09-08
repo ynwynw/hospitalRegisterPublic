@@ -1,0 +1,9 @@
+body {
+    height: auto;
+    background: url(../img/hospital.jpg) no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: #5d81a3;
+}

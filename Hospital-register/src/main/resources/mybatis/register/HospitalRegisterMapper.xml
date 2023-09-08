@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.common.hospitalregister.mapper.HospitalRegisterMapper">
+
+    <resultMap type="HospitalRegister" id="HospitalRegisterResult">
+        <result property="hospitalId" column="hospital_id"/>
+        <result property="registerId" column="register_id"/>
+        <result property="doctorId" column="doctor_id"/>
+        <result property="areaId" column="area_id"/>
+    </resultMap>
+
+
+    <select id="selectDoctorIdByHospitalRegister" resultMap="HospitalRegisterResult">
+        select * from hospital_register_hospital where register_id=#{registerId} and area_id=#{areaId}
+    </select>
+
+
+    <select id="selectHospitalIdByAreaId" resultMap="HospitalRegisterResult">
+        select * from hospital_register_hospital
+        <where>
+            <if test="areaId != null">and area_id = #{areaId}</if>
+            <if test="hospitalId != null"> and hospital_id = #{hospitalId}</if>
+            <if test="registerId != null"> and register_id = #{registerId}</if>
+            <if test="doctorId != null"> and doctor_id = #{doctorId}</if>
+        </where>
+
+    </select>
+
+
+    <update id="updateHospitalRegister" parameterType="HospitalRegister">
+        update hospital_register_hospital
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaId != null">area_id = #{areaId},</if>
+            <if test="hospitalId != null">  hospital_id = #{hospitalId},</if>
+            <if test="registerId != null"> register_id = #{registerId},</if>
+        </trim>
+        where doctor_id = #{doctorId}
+    </update>
+
+    <delete id="deleteHospitalinfoById" parameterType="Long">
+        delete from hospital_register_hospital where doctor_id = #{doctorId}
+    </delete>
+
+    <delete id="deleteHospitalinfoByIds" parameterType="String">
+        delete from hospital_register_hospital where doctor_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="inserteHospitalinfo" parameterType="HospitalRegister">
+        insert into hospital_register_hospital
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaId != null"> area_id,</if>
+            <if test="hospitalId != null">  hospital_id,</if>
+            <if test="registerId != null">  register_id,</if>
+            <if test="doctorId != null"> doctor_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaId != null"> #{areaId},</if>
+            <if test="hospitalId != null">  #{hospitalId},</if>
+            <if test="registerId != null">  #{registerId},</if>
+            <if test="doctorId != null"> #{doctorId},</if>
+        </trim>
+    </insert>
+
+</mapper>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('服务订单列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label>用户姓名：</label>
+                            <input type="text" name="userName"/>
+                        </li>
+                        <li>
+                            <label>患者姓名：</label>
+                            <input type="text" name="contactName"/>
+                        </li>
+                        <li>
+                            <label>科室：</label>
+                            <input type="text" name="registerName"/>
+                        </li>
+                        <li>
+                            <label>医生：</label>
+                            <input type="text" name="serverName"/>
+                        </li>
+                        <li>
+                            <label>职称：</label>
+                            <select name="typeInfo" th:with="type=${@dict.getType('doc_professional')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>支付状态：</label>
+                            <select name="payStatus" th:with="type=${@dict.getType('pay_status')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>预约日期：</label>
+                            <input type="text" name="orderDate"/>
+                        </li>
+<!--                        <li>-->
+<!--                            <label>医院名称：</label>-->
+<!--                            <input type="text" name="orderTime"/>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <label>地区：</label>-->
+<!--                            <input type="text" name="orderTime"/>-->
+<!--                        </li>-->
+                        <li>
+                            <label>预约时间：</label>
+                            <input type="text" name="orderTime"/>
+                        </li>
+                        <li>
+                            <label>就诊状态：</label>
+                            <select name="serviceStatus" th:with="type=${@dict.getType('service_status')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+               shiro:hasPermission="register:serviceorder:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+               shiro:hasPermission="register:serviceorder:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()"
+               shiro:hasPermission="register:serviceorder:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('register:serviceorder:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('register:serviceorder:remove')}]];
+    var typeInfoDatas = [[${@dict.getType('doc_professional')}]];
+    var payStatusDatas = [[${@dict.getType('pay_status')}]];
+    var serviceStatusDatas = [[${@dict.getType('service_status')}]];
+    var prefix = ctx + "register/serviceorder";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "挂号单",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'id',
+                    title: '主键',
+                    visible: false
+                },
+                {
+                    field: 'userName',
+                    title: '用户姓名'
+                },
+                {
+                    field: 'contactName',
+                    title: '患者姓名'
+                },
+                {
+                    field: 'contactPhone',
+                    title: '联系电话'
+                },
+                {
+                    field: 'registerName',
+                    title: '科室名'
+                },
+                {
+                    field: 'serverName',
+                    title: '医生姓名'
+                },
+                {
+                    field: 'hospitalName',
+                    title: '医院名称'
+                },
+                {
+                    field: 'areaName',
+                    title: '地区'
+                },
+                {
+                    field: 'typeInfo',
+                    title: '医生职称',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(typeInfoDatas, value);
+                    }
+                },
+                {
+                    field: 'price',
+                    title: '挂号价格（单位元）'
+                },
+                {
+                    field: 'payStatus',
+                    title: '支付状态',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(payStatusDatas, value);
+                    }
+                },
+                {
+                    field: 'orderDate',
+                    title: '预约日期'
+                },
+
+                {
+                    field: 'orderTime',
+                    title: '预约时间'
+                },
+                {
+                    field: 'illTroditional',
+                    title: '疾病描述'
+                },
+                {
+                    field: 'reasonCancel',
+                    title: '预约取消原因'
+                },
+                {
+                    field: 'serviceStatus',
+                    title: '就诊状态',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(serviceStatusDatas, value);
+                    }
+                },
+                {
+                    field: 'evaluatePoint',
+                    title: '评价分数'
+                },
+                {
+                    field: 'remark',
+                    title: '评价'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

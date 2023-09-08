@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.register.serviceorder.mapper.ServiceorderMapper">
+
+    <resultMap type="Serviceorder" id="ServiceorderResult">
+        <result property="id"    column="id"    />
+        <result property="registerId"    column="register_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="serviceId"    column="service_id"    />
+        <result property="registerName"    column="register_name"    />
+        <result property="serverName"    column="server_name"    />
+        <result property="typeInfo"    column="type_info"    />
+        <result property="price"    column="price"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="serviceStatus"    column="service_status"    />
+        <result property="orderDate"    column="order_date"    />
+        <result property="orderTime"    column="order_time"    />
+        <result property="illTroditional"    column="ill_troditional"    />
+        <result property="reasonCancel"    column="reason_cancel"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="userName"    column="userName"    />
+        <result property="evaluatePoint"    column="evaluate_point"    />
+        <result property="contactName"    column="contact_name"    />
+        <result property="contactPhone"    column="contact_phone"    />
+        <result property="hospitalId"    column="hospital_id"    />
+        <result property="areaId"    column="area_id"    />
+    </resultMap>
+
+    <sql id="selectServiceorderVo">
+        select bs.id, bs.register_id, bs.service_id, bs.user_id, bs.register_name, bs.order_date, bs.order_time,bs.hospital_id,bs.area_id, bs.contact_name, bs.contact_phone, bs.server_name, bs.evaluate_point, bs.type_info, bs.price, bs.pay_status, bs.service_status, bs.order_date, bs.order_time, bs.ill_troditional,bs.reason_cancel, bs.create_by, bs.create_time, bs.update_by, bs.update_time, bs.remark, u.user_name as userName from bar_serviceorder bs
+        LEFT JOIN sys_user u on u.user_id = bs.create_by
+    </sql>
+
+    <select id="selectServiceorderList" parameterType="Serviceorder" resultMap="ServiceorderResult">
+        <include refid="selectServiceorderVo"/>
+        <where>
+            <if test="registerId != null "> and bs.register_id = #{registerId}</if>
+            <if test="serviceId != null "> and bs.service_id = #{serviceId}</if>
+            <if test="userId != null"> and bs.user_id = #{userId}</if>
+            <if test="registerName != null  and registerName != ''"> and bs.register_name like concat('%', #{registerName}, '%')</if>
+            <if test="serverName != null  and serverName != ''"> and bs.server_name like concat('%', #{serverName}, '%')</if>
+            <if test="typeInfo != null  and typeInfo != ''"> and bs.type_info = #{typeInfo}</if>
+            <if test="price != null  and price != ''"> and bs.price = #{price}</if>
+            <if test="payStatus != null  and payStatus != ''"> and bs.pay_status = #{payStatus}</if>
+            <if test="serviceStatus != null  and serviceStatus != ''"> and bs.service_status = #{serviceStatus}</if>
+            <if test="orderDate != null  and orderDate != ''"> and bs.order_date = #{orderDate}</if>
+            <if test="orderTime != null  and orderTime != ''"> and bs.order_time = #{orderTime}</if>
+            <if test="illTroditional != null  and illTroditional != ''"> and bs.ill_troditional = #{illTroditional}</if>
+            <if test="reasonCancel != null  and reasonCancel != ''"> and bs.reason_cancel = #{reasonCancel}</if>
+            <if test="userName != null  and userName != ''"> and u.user_name like concat('%', #{userName}, '%')</if>
+            <if test="userName != null  and userName != ''"> and u.user_name like concat('%', #{userName}, '%')</if>
+            <if test="createBy != null  and createBy != ''"> and bs.create_by = #{createBy}</if>
+            <if test="hospitalId != null  and hospitalId != ''"> and bs.hospital_id = #{hospitalId}</if>
+            <if test="areaId != null  and areaId != ''"> and bs.area_id = #{areaId}</if>
+            <if test="contactName != null  and contactName != ''"> and bs.contact_name like concat('%', #{contactName}, '%')</if>
+        </where>
+        order by update_time desc
+    </select>
+
+    <select id="selectServiceorderById" parameterType="Long" resultMap="ServiceorderResult">
+        <include refid="selectServiceorderVo"/>
+        where bs.id = #{id}
+    </select>
+
+
+    <select id="selectServiceorderByDoctorId" parameterType="int" resultMap="ServiceorderResult">
+        SELECT * from bar_serviceorder where service_id = #{service_id}
+    </select>
+    <select id="selectServiceorderInfoAppraiseList" parameterType="Serviceorder" resultMap="ServiceorderResult">
+        SELECT * from bar_serviceorder where service_id = #{serviceId} and area_id=#{areaId}
+    </select>
+    <select id="selectServiceorderInfoList" parameterType="Serviceorder" resultMap="ServiceorderResult">
+        SELECT * from bar_serviceorder where contact_name = #{contactName} and service_status = "0" and pay_status = "0" and create_by=#{createBy}
+    </select>
+
+
+
+    <insert id="insertServiceorder" parameterType="Serviceorder">
+        insert into bar_serviceorder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="registerId != null ">register_id,</if>
+            <if test="serviceId != null ">service_id,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="registerName != null  and registerName != ''">register_name,</if>
+            <if test="serverName != null  and serverName != ''">server_name,</if>
+            <if test="typeInfo != null  and typeInfo != ''">type_info,</if>
+            <if test="price != null  and price != ''">price,</if>
+            <if test="payStatus != null  and payStatus != ''">pay_status,</if>
+            <if test="orderDate != null  and orderDate != ''">order_date,</if>
+            <if test="orderTime != null  and orderTime != ''">order_time,</if>
+            <if test="illTroditional != null  and illTroditional != ''">ill_troditional,</if>
+            <if test="reasonCancel != null  and reasonCancel != ''">reason_cancel,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="serviceStatus != null  and serviceStatus != ''">service_status,</if>
+            <if test="evaluatePoint != null  and evaluatePoint != ''">evaluate_point,</if>
+            <if test="contactName != null  and contactName != ''">contact_name,</if>
+            <if test="contactPhone != null  and contactPhone != ''">contact_phone,</if>
+            <if test="areaId != null  and areaId != ''">area_id,</if>
+            <if test="hospitalId != null  and hospitalId != ''">hospital_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="registerId != null ">#{registerId},</if>
+            <if test="serviceId != null ">#{serviceId},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="registerName != null  and registerName != ''">#{registerName},</if>
+            <if test="serverName != null  and serverName != ''">#{serverName},</if>
+            <if test="typeInfo != null  and typeInfo != ''">#{typeInfo},</if>
+            <if test="price != null  and price != ''">#{price},</if>
+            <if test="payStatus != null  and payStatus != ''">#{payStatus},</if>
+            <if test="orderDate != null  and orderDate != ''">#{orderDate},</if>
+            <if test="orderTime != null  and orderTime != ''">#{orderTime},</if>
+            <if test="illTroditional != null  and illTroditional != ''">#{illTroditional},</if>
+            <if test="reasonCancel != null  and reasonCancel != ''">#{reasonCancel},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="serviceStatus != null  and serviceStatus != ''">#{serviceStatus},</if>
+            <if test="evaluatePoint != null  and evaluatePoint != ''">#{evaluatePoint},</if>
+            <if test="contactName != null  and contactName != ''">#{contactName},</if>
+            <if test="contactPhone != null  and contactPhone != ''">#{contactPhone},</if>
+            <if test="areaId != null  and areaId != ''">#{areaId},</if>
+            <if test="hospitalId != null  and hospitalId != ''">#{hospitalId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateServiceorder" parameterType="Serviceorder">
+        update bar_serviceorder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="registerId != null ">register_id = #{registerId},</if>
+            <if test="serviceId != null ">service_id = #{serviceId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="registerName != null  and registerName != ''">register_name = #{registerName},</if>
+            <if test="serverName != null  and serverName != ''">server_name = #{serverName},</if>
+            <if test="typeInfo != null  and typeInfo != ''">type_info = #{typeInfo},</if>
+            <if test="price != null  and price != ''">price = #{price},</if>
+            <if test="payStatus != null  and payStatus != ''">pay_status = #{payStatus},</if>
+            <if test="orderDate != null  and orderDate != ''">order_date = #{orderDate},</if>
+            <if test="orderTime != null  and orderTime != ''">order_time = #{orderTime},</if>
+            <if test="illTroditional != null  and illTroditional != ''">ill_troditional = #{illTroditional},</if>
+            <if test="reasonCancel != null  and reasonCancel != ''">reason_cancel = #{reasonCancel},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="serviceStatus != null  and serviceStatus != ''">service_status = #{serviceStatus},</if>
+            <if test="evaluatePoint != null  and evaluatePoint != ''">evaluate_point = #{evaluatePoint},</if>
+            <if test="contactName != null  and contactName != ''">contact_name = #{contactName},</if>
+            <if test="contactPhone != null  and contactPhone != ''">contact_phone = #{contactPhone},</if>
+            <if test="hospitalId != null  and hospitalId != ''">hospital_id = #{hospitalId},</if>
+            <if test="areaId != null  and areaId != ''">area_id = #{areaId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteServiceorderById" parameterType="Long">
+        delete from bar_serviceorder where id = #{id}
+    </delete>
+
+    <delete id="deleteServiceorderByIds" parameterType="String">
+        delete from bar_serviceorder where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.register.noticeinfo.mapper.NoticeinfoMapper">
+
+    <resultMap type="Noticeinfo" id="NoticeinfoResult">
+        <result property="id"    column="id"    />
+        <result property="logo"    column="logo"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectNoticeinfoVo">
+        select id, logo, title, content, create_by, create_time, update_by, update_time, remark from bar_noticeinfo
+    </sql>
+
+    <select id="selectNoticeinfoList" parameterType="Noticeinfo" resultMap="NoticeinfoResult">
+        <include refid="selectNoticeinfoVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectNoticeinfoById" parameterType="Long" resultMap="NoticeinfoResult">
+        <include refid="selectNoticeinfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNoticeinfo" parameterType="Noticeinfo">
+        insert into bar_noticeinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="logo != null  and logo != ''">logo,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="logo != null  and logo != ''">#{logo},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNoticeinfo" parameterType="Noticeinfo">
+        update bar_noticeinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="logo != null  and logo != ''">logo = #{logo},</if>
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNoticeinfoById" parameterType="Long">
+        delete from bar_noticeinfo where id = #{id}
+    </delete>
+
+    <delete id="deleteNoticeinfoByIds" parameterType="String">
+        delete from bar_noticeinfo where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

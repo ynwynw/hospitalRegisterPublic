@@ -1,0 +1,310 @@
+{
+	// "easycom": {
+	//   "^tn-(.*)": "@/tuniao-ui/components/tn-$1/tn-$1.vue"
+	// },
+	"pages": [
+
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle": "custom",
+				// #ifdef MP-WEIXIN
+				// "navigationBarTitleText": "首页",
+				// "navigationBarCustomBackEnabled": true
+				"navigationStyle": "custom",
+				"enableShareAppMessage": true,
+				// #endif 
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		}, {
+			"path": "pages/set/set",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+
+		{
+			"path": "pages/userinfo/userinfo",
+			"style": {
+				"navigationBarTitleText": "修改资料"
+			}
+		}, {
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "科室信息"
+			}
+		}, {
+			"path": "pages/register/choosedate",
+			"style": {
+				"navigationBarTitleText": "预约时间"
+			}
+		}, {
+			"path": "pages/register/service",
+			"style": {
+				"navigationBarTitleText": "医生信息"
+			}
+		}, {
+			"path": "pages/public/re",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
+			}
+		}, {
+			"path": "pages/public/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
+			}
+		}, {
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "我的",
+				// #ifdef MP
+				"navigationStyle": "custom",
+				// #endif
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"type": "transparent",
+						"buttons": [{
+								"fontSrc": "/static/yticon.ttf",
+								"text": "\ue60f",
+								"fontSize": "24",
+								"color": "#303133",
+								"width": "46px",
+								"background": "rgba(0,0,0,0)"
+							},
+							{
+								"fontSrc": "/static/yticon.ttf",
+								"text": "\ue744",
+								"fontSize": "28",
+								"color": "#303133",
+								"background": "rgba(0,0,0,0)",
+								"redDot": true
+							}
+						]
+					}
+				}
+			}
+		}, {
+			"path": "pages/order/serviceorder",
+			"style": {
+				"navigationBarTitleText": "挂号记录",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/order/orderRegister",
+			"style": {
+				"navigationBarTitleText": "预约挂号",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/order/successOrder",
+			"style": {
+				"navigationBarTitleText": "预约成功",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/indexregister/indexregister",
+			"style": {
+				"navigationBarTitleText": "按科室挂号",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/order/successOrder2",
+			"style": {
+				"navigationBarTitleText": "预约详情",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+
+		{
+			"path": "pages/money/money",
+			"style": {}
+		}, {
+			"path": "pages/order/createOrder",
+			"style": {
+				"navigationBarTitleText": "创建订单"
+			}
+		}, {
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"enableShareAppMessage": true
+			}
+		},
+		{
+			"path": "pages/advise/advise",
+			"style": {
+				"navigationBarTitleText": "意见和反馈"
+			}
+		},
+		{
+			"path": "pages/address/address",
+			"style": {
+				"navigationBarTitleText": "患者信息"
+			}
+		}, {
+			"path": "pages/address/addressManage",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "pages/money/pay",
+			"style": {
+				"navigationBarTitleText": "支付"
+			}
+		},
+		{
+			"path": "pages/money/payServiceSuccess",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+		}, {
+			"path": "pages/notice/notice",
+			"style": {
+				"navigationBarTitleText": "通知"
+			}
+		}, {
+			"path": "pages/account/account",
+			"style": {
+				"navigationBarTitleText": "我的余额"
+			}
+		}, {
+			"path": "pages/money/accountServicepay",
+			"style": {
+				"navigationBarTitleText": "支付"
+			}
+		}, {
+			"path": "pages/account/recharge",
+			"style": {
+				"navigationBarTitleText": "充值"
+			}
+		}, {
+			"path": "pages/notice/noticeDetail",
+			"style": {
+				"navigationBarTitleText": "资讯详情"
+			}
+		}, {
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/order/evaluate",
+			"style": {
+				"navigationBarTitleText": "订单评价"
+			}
+		}, {
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "预约",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/detail2/detail2",
+			"style": {
+				"navigationBarTitleText": "预约",
+				"enablePullDownRefresh": false
+			}
+
+		}
+
+		, {
+			"path": "pages/mine/AboutUs",
+			"style": {
+				"navigationBarTitleText": "关于我们",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/record/record",
+			"style": {
+				"navigationBarTitleText": "挂号记录",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/collect/collect",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/share/share",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/location/location",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		// "navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#f8f8f8"
+	},
+	"tabBar": {
+		"color": "#C0C4CC",
+		"selectedColor": "#fa436a",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/h1.png",
+				"selectedIconPath": "static/h2.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/register/register",
+				"iconPath": "static/home_current.png",
+				"selectedIconPath": "static/home.png",
+				"text": "预约"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "static/tab-my.png",
+				"selectedIconPath": "static/tab-my-current.png",
+				"text": "我的"
+			}
+		]
+	}
+}

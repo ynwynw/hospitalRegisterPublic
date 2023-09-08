@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.common.collect.mapper.HospitalCollectMapper">
+
+    <resultMap type="HospitalCollect" id="HospitalCollectResult">
+        <result property="userId"    column="user_id"    />
+        <result property="collect"    column="collect"    />
+        <result property="doctorId"    column="doctor_id"    />
+        <result property="hospitalId"    column="hospital_id"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <select id="selectByUserId" parameterType="HospitalCollect" resultMap="HospitalCollectResult">
+       select * from hospital_collect
+        <where>
+            <if test="userId != null  and userId != ''"> user_id = #{userId}</if>
+            <if test="doctorId != null  and doctorId != ''"> and doctor_id = #{doctorId}</if>
+            <if test="collect != null  and collect != ''"> and collect = #{collect}</if>
+            <if test="hospitalId != null  and hospitalId != ''"> and hospital_id = #{hospitalId}</if>
+        </where>
+
+    </select>
+    <select id="selectCollect" parameterType="HospitalCollect" resultMap="HospitalCollectResult">
+       select * from hospital_collect
+        <where>
+            <if test="userId != null  and userId != ''"> user_id = #{userId}</if>
+            <if test="doctorId != null  and doctorId != ''"> and doctor_id = #{doctorId}</if>
+            <if test="hospitalId != null  and hospitalId != ''"> and hospital_id = #{hospitalId}</if>
+        </where>
+
+    </select>
+
+    <insert id="insertCollect" parameterType="HospitalCollect">
+        insert into hospital_collect values (#{id},#{userId},#{collect},#{doctorId},#{hospitalId})
+    </insert>
+
+    <update id="updateByUserId" parameterType="HospitalCollect">
+        update hospital_collect set collect = #{collect} where user_id=#{userId} and doctor_id=#{doctorId}
+    </update>
+
+
+    <select id="selectCollectinfoList" parameterType="HospitalCollect" resultMap="HospitalCollectResult">
+        select * from hospital_collect
+        <where>
+            <if test="userId != null  and userId != ''"> user_id = #{userId}</if>
+            <if test="doctorId != null  and doctorId != ''"> and doctor_id = #{doctorId}</if>
+            <if test="collect != null  and collect != ''"> and collect = #{collect}</if>
+            <if test="hospitalId != null  and hospitalId != ''"> and hospital_id = #{hospitalId}</if>
+        </where>
+    </select>
+
+
+    <delete id="deleteCollectinfoByIds" parameterType="String">
+        delete from hospital_collect where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <sql id="selectHospitalCollectVo">
+        select * from hospital_collect
+    </sql>
+
+    <select id="selectHospitalCollectList" parameterType="HospitalCollect" resultMap="HospitalCollectResult">
+        <include refid="selectHospitalCollectVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="collect != null  and collect != ''"> and collect = #{collect}</if>
+            <if test="doctorId != null "> and doctor_id = #{doctorId}</if>
+            <if test="hospitalId != null "> and hospital_id = #{hospitalId}</if>
+        </where>
+    </select>
+    <select id="selectHospitalCollectByDoctorId" parameterType="HospitalCollect" resultMap="HospitalCollectResult">
+        select * from hospital_collect where  doctor_id = #{doctorId}
+    </select>
+
+    <select id="selectHospitalCollectById" parameterType="Long" resultMap="HospitalCollectResult">
+        <include refid="selectHospitalCollectVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHospitalCollect" parameterType="HospitalCollect" useGeneratedKeys="true" keyProperty="id">
+        insert into hospital_collect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="collect != null  and collect != ''">collect,</if>
+            <if test="doctorId != null ">doctor_id,</if>
+            <if test="hospitalId != null ">hospital_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="collect != null  and collect != ''">#{collect},</if>
+            <if test="doctorId != null ">#{doctorId},</if>
+            <if test="hospitalId != null ">#{hospitalId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateHospitalCollect" parameterType="HospitalCollect">
+        update hospital_collect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="collect != null  and collect != ''">collect = #{collect},</if>
+            <if test="doctorId != null ">doctor_id = #{doctorId},</if>
+            <if test="hospitalId != null ">hospital_id = #{hospitalId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHospitalCollectById" parameterType="Long">
+        delete from hospital_collect where id = #{id}
+    </delete>
+    <delete id="deleteHospitalCollectByhospitalId" parameterType="Long">
+        delete from hospital_collect where doctor_id = #{id}
+    </delete>
+
+
+    <delete id="deleteHospitalCollectByIds" parameterType="String">
+        delete from hospital_collect where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteHospitalCollectByhospitalIds" parameterType="String">
+        delete from hospital_collect where doctor_id in
+        <foreach item="doctor_id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

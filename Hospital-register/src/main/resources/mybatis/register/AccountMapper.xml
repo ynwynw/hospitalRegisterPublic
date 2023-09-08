@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.register.account.mapper.AccountMapper">
+
+    <resultMap type="Account" id="AccountResult">
+        <result property="id"    column="id"    />
+        <result property="remainingSum"    column="remaining_sum"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="userName"    column="userName"    />
+    </resultMap>
+
+    <sql id="selectAccountVo">
+        select ba.id, ba.remaining_sum, ba.create_by, ba.create_time, ba.update_by, ba.update_time, ba.remark, u.user_name as userName from bar_account ba
+        LEFT JOIN sys_user u on u.user_id = ba.create_by
+    </sql>
+
+    <select id="selectAccountList" parameterType="Account" resultMap="AccountResult">
+        <include refid="selectAccountVo"/>
+        <where>
+            <if test="remainingSum != null"> and ba.remaining_sum = #{remainingSum}</if>
+            <if test="createBy != null  and createBy != ''"> and ba.create_by = #{createBy}</if>
+            <if test="userName != null  and userName != ''"> and u.user_name like concat('%', #{userName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectAccountById" parameterType="Long" resultMap="AccountResult">
+        <include refid="selectAccountVo"/>
+        where ba.id = #{id}
+    </select>
+
+    <select id="selectAccountByCon" parameterType="Account" resultMap="AccountResult">
+        <include refid="selectAccountVo"/>
+        <where>
+            <if test="remainingSum != null"> and ba.remaining_sum = #{remainingSum}</if>
+            <if test="createBy != null  and createBy != ''"> and ba.create_by = #{createBy}</if>
+        </where>
+    </select>
+
+    <insert id="insertAccount" parameterType="Account">
+        insert into bar_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="remainingSum != null">remaining_sum,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="remainingSum != null">#{remainingSum},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAccount" parameterType="Account">
+        update bar_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="remainingSum != null">remaining_sum = #{remainingSum},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAccountById" parameterType="Long">
+        delete from bar_account where id = #{id}
+    </delete>
+
+    <delete id="deleteAccountByIds" parameterType="String">
+        delete from bar_account where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

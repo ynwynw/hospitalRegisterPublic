@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.register.registerinfo.mapper.RegisterinfoMapper">
+
+    <resultMap type="Registerinfo" id="RegisterinfoResult">
+        <result property="id"    column="id"    />
+        <result property="logo"    column="logo"    />
+        <result property="name"    column="name"    />
+        <result property="introduce"    column="introduce"    />
+        <result property="position"    column="position"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectRegisterinfoVo">
+        select id, logo, name, introduce, position, create_by, create_time, update_by, update_time, remark from bar_barberinfo
+    </sql>
+
+    <select id="selectRegisterinfoList" parameterType="Registerinfo" resultMap="RegisterinfoResult">
+        <include refid="selectRegisterinfoVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="selectRegisterinfo" parameterType="Registerinfo" resultMap="RegisterinfoResult">
+        <include refid="selectRegisterinfoVo"/>
+        <where>
+             name = #{name}
+        </where>
+    </select>
+
+    <select id="selectRegisterinfoById" parameterType="Long" resultMap="RegisterinfoResult">
+        <include refid="selectRegisterinfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRegisterinfo" parameterType="Registerinfo">
+        insert into bar_barberinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="logo != null  and logo != ''">logo,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="introduce != null  and introduce != ''">introduce,</if>
+            <if test="position != null  and position != ''">position,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="logo != null  and logo != ''">#{logo},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="introduce != null  and introduce != ''">#{introduce},</if>
+            <if test="position != null  and position != ''">#{position},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRegisterinfo" parameterType="Registerinfo">
+        update bar_barberinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="logo != null  and logo != ''">logo = #{logo},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="introduce != null  and introduce != ''">introduce = #{introduce},</if>
+            <if test="position != null  and position != ''">position = #{position},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRegisterinfoById" parameterType="Long">
+        delete from bar_barberinfo where id = #{id}
+    </delete>
+
+    <delete id="deleteRegisterinfoByIds" parameterType="String">
+        delete from bar_barberinfo where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

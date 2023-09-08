@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改账户金额')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-account-edit" th:object="${account}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">用户姓名：</label>
+                <div class="col-sm-8">
+                    <input th:value="*{userName}" class="form-control" type="text" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">余额：</label>
+                <div class="col-sm-8">
+                    <input name="remainingSum" th:field="*{remainingSum}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "register/account";
+        $("#form-account-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-account-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

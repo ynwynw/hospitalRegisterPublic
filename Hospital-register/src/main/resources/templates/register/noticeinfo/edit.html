@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改资讯信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-noticeinfo-edit" th:object="${noticeinfo}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">图片：</label>
+                <div class="col-sm-8">
+                    <input name="logo" th:value="*{logo}" class="form-control" type="hidden" id="logoVal"/>
+                    <img th:src="*{logo}" style="width: 80px;height: 100px;" id="logoImg">
+                    <input type="file" class="" id="logo" accept="image/*" onchange="uploadFile()"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">主题：</label>
+                <div class="col-sm-8">
+                    <textarea name="title" class="form-control">[[*{title}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">内容：</label>
+                <div class="col-sm-8">
+                    <textarea name="content" class="form-control">[[*{content}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "register/noticeinfo";
+        $("#form-noticeinfo-edit").validate({
+            focusCleanup: true
+        });
+
+        function uploadFile() {
+            var formData = new FormData();
+            if ($('#logo')[0].files[0] == null) {
+                return false;
+            }
+            formData.append('file', $('#logo')[0].files[0]);
+            var flag = true;
+            $.ajax({
+                url: ctx + "common/upload",
+                type: 'post',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                async:false,
+                dataType: "json",
+                success: function (result) {
+                    if (result.code == web_status.SUCCESS) {
+                        var data = result.fileName;
+                        $("#logoVal").val(data);
+                        $("#logoImg").attr("src", data);
+                    }else {
+                        $.modal.alertError(result.msg);
+                    }
+                },
+                error: function(error) {
+                    $.modal.alertWarning("图片上传失败。");
+                }
+            });
+            return flag;
+        }
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-noticeinfo-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>
